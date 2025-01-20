@@ -1,30 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour{
-    public Transform player;
-    public float moveSpeed = 3.5f;
-    private Rigidbody2D rb;
-    private Vector2 movement;
+public class Enemy : MonoBehaviour
+{
+    public Transform player; // Target for the enemy to follow
+    public float moveSpeed = 3.5f; // Movement speed (adjusted in NavMeshAgent)
 
-    // Start is called before the first frame update
-    void Start(){
-        rb = this.GetComponent<Rigidbody2D>();
+    private NavMeshAgent agent;
+
+    void Start()
+    {
+        // Get the NavMeshAgent component and configure its settings
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false; // Disable default rotation
+        agent.updateUpAxis = false;   // Maintain 2D plane (important for NavMeshPlus)
+        agent.speed = moveSpeed;     // Set movement speed
     }
 
-    // Update is called once per frame
-    void Update(){
-        Vector3 direction = player.position - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        rb.rotation = angle;
-        direction.Normalize();
-        movement = direction;
+    void Update()
+    {
+        // Set the destination to the player's position
+        agent.SetDestination(player.position);
+
+        // Rotate the enemy to face the player
+        RotateTowards(player.position);
     }
-    private void FixedUpdate() {
-        moveCharacter(movement);
-    }
-    void moveCharacter(Vector2 direction){
-        rb.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
+
+    void RotateTowards(Vector3 target)
+    {
+        Vector3 direction = target - transform.position; // Direction to target
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // Calculate angle
+        transform.rotation = Quaternion.Euler(0, 0, angle); // Apply rotation in 2D
     }
 }
