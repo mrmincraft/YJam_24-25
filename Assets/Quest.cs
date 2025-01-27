@@ -18,14 +18,11 @@ public class Quest : MonoBehaviour
     }
 
 
-    public void HidePopup()
-    {
-        popupPanel.SetActive(false);
-    }
+
 
     private void Start()
     {
 
-        popupPanel.SetActive(false);
+        popupPanel.SetActive(true);
     }
 }

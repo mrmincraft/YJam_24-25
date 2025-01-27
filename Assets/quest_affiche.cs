@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class quest_affiche : MonoBehaviour
+public class QuestTrigger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public Quest popupManager;
 
-    // Update is called once per frame
-    void Update()
+    public void TriggerQuest()
     {
-        
+        popupManager.ShowPopup("Quête");
     }
 }
