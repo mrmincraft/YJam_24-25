@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerInputs : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public PlayerData playerData;
     
     public Rigidbody2D rb;
     public Camera cam;
@@ -20,7 +20,7 @@ public class PlayerInputs : MonoBehaviour
     
     void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * playerData.speed * Time.fixedDeltaTime);
         
         Vector2 lookDir = mousePos - rb.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;

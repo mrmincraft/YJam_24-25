@@ -3,23 +3,26 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public GameObject hitEffect;
+    public int bulletDamage = 35; // Damage per bullet
 
-    void Start()
-    {
-        // Destroy the bullet after 3 seconds if it doesn't collide with anything
-        Destroy(gameObject, 3f);
-    }
-    
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the object has the "Player" tag
         if (collision.gameObject.CompareTag("Player"))
         {
-            // Ignore collision with the player
-            return;
+            return; // Ignore player collision
         }
 
-        // Instantiate the hit effect and destroy the bullet
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Damage the enemy
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(bulletDamage);
+            }
+        }
+
+        // Create hit effect and destroy bullet
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
         Destroy(effect, 0.5f);
