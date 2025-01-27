@@ -1,12 +1,13 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class timebehavior : MonoBehaviour
 {
     [SerializeField] private float targetTime = 10.0f;
     [SerializeField] private TMP_Text TimeText;
     [SerializeField] private bool pause;
-    private float fillpersent = 0 ;
+    //private float fillpersent = 0 ;
    // Start is called once before the first execution of Update after the MonoBehaviour is created
    void Start()
     {
@@ -20,6 +21,7 @@ public class timebehavior : MonoBehaviour
         {
             targetTime -= Time.deltaTime;
             TimeText.text = targetTime.ToString();
+
             if (targetTime <= 0.0f)
             {
                 timerEnded();
@@ -32,5 +34,6 @@ public class timebehavior : MonoBehaviour
     {
         TimeText.text = "0.000";
         pause = true;
+        SceneManager.LoadScene("MainMenu");
     }
 }
